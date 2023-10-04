@@ -135,9 +135,30 @@ const removeFromCart = asyncHandler(async (req, res) => {
   })
 })
 
+// desc: clear user's cart, route: /api/users/clearcart, access: private, request: DELETE
+const clearCart = asyncHandler(async (req, res) => {
+  const userId = req.user.id
+
+  const user = await User.findById(userId)
+
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' })
+  }
+
+  // Clear the cartItems array
+  user.cartItems = []
+
+  await user.save()
+
+  res.status(200).json({
+    message: 'Cart cleared successfully',
+    cartItems: user.cartItems,
+  })
+})
 module.exports = {
   addToCart,
   updateCartQuantity,
   getAllCartItems,
   removeFromCart,
+  clearCart,
 }

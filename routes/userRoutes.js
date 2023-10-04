@@ -5,6 +5,7 @@ const {
   currentUser,
   addToWishlist,
   removeFromWishlist,
+  getAllOrdersOfUser,
   getAllWishlistItems,
 } = require('../controllers/userController')
 const validateToken = require('../middleware/validateTokenHandler')
@@ -13,6 +14,7 @@ const {
   updateCartQuantity,
   getAllCartItems,
   removeFromCart,
+  clearCart,
 } = require('../controllers/cartController')
 const router = express.Router()
 
@@ -26,5 +28,7 @@ router.post('/cart', validateToken, addToCart)
 router.put('/cart', validateToken, updateCartQuantity)
 router.get('/cart', validateToken, getAllCartItems)
 router.delete('/cart', validateToken, removeFromCart)
+router.delete('/clearcart', validateToken, clearCart)
+router.get('/orders', validateToken, getAllOrdersOfUser)
 
 module.exports = router

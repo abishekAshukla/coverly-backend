@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const User = require('../models/UserSchema')
 const Product = require('../models/ProductSchema')
+const Order = require('../models/OrderSchema')
 
 // desc: register/signup new user , route: POST /api/users/register , access: public, request: POST
 const registerUser = asyncHandler(async (req, res) => {
@@ -165,6 +166,23 @@ const getAllWishlistItems = asyncHandler(async (req, res) => {
   res.status(200).json({ wishListItems: products })
 })
 
+// desc: get all orders of a particular user, route: /api/users/orders, access: private, request: GET
+const getAllOrdersOfUser = asyncHandler(async (req, res) => {
+  const userId = req.user.id
+
+  const user = await User.findById(userId)
+
+  if (!user) {
+    return res.status(404).json({ message: 'User not found' })
+  }
+
+  const orders = await Order.find({
+    userEmail: user.email,
+  })
+
+  res.status(200).json({ orders: orders })
+})
+
 module.exports = {
   registerUser,
   loginUser,
@@ -172,4 +190,5 @@ module.exports = {
   addToWishlist,
   removeFromWishlist,
   getAllWishlistItems,
+  getAllOrdersOfUser,
 }

@@ -98,9 +98,55 @@ const getAllProductLinks = asyncHandler(async (req, res) => {
   })
 })
 
+// New route: Search products by brand, model, and product name
+// route: GET /api/products/search?query=yourQuery&page=pageNumber
+const searchProducts = asyncHandler(async (req, res) => {
+  try {
+    const { query } = req.query
+    const page = parseInt(req.query.page) || 1 // Get the page number from query parameter, default to 1
+    const itemsPerPage = 7
+
+    const startIndex = (page - 1) * itemsPerPage
+    const endIndex = page * itemsPerPage
+
+    // Create a filter to search in brand, model, and product_name fields
+    const filter = {
+      $or: [
+        { brand: { $regex: `.*${query}.*`, $options: 'i' } },
+        { model: { $regex: `.*${query}.*`, $options: 'i' } },
+        { product_name: { $regex: `.*${query}.*`, $options: 'i' } },
+      ],
+    }
+
+    const products = await Product.find(filter)
+      .skip(startIndex)
+      .limit(itemsPerPage)
+
+    const totalProducts = await Product.countDocuments(filter)
+
+    const hasMore = endIndex < totalProducts
+
+    if (!products || products.length === 0) {
+      res.status(404)
+      throw new Error('No products found')
+    }
+
+    res.status(200).json({
+      message: `Search products for ${query}`,
+      products: products,
+      currentPage: page,
+      hasMore: hasMore,
+      itemsLeft: Math.max(0, totalProducts - endIndex),
+    })
+  } catch (error) {
+    res.status(500).json({ error: 'Server error' })
+  }
+})
+
 module.exports = {
   getByBrand,
   getByBrandAndModel,
   getByProductLink,
   getAllProductLinks,
+  searchProducts,
 }
