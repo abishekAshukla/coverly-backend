@@ -61,12 +61,17 @@ const loginUser = asyncHandler(async (req, res) => {
         expiresIn: '24h',
       }
     )
+    noItemsInCart = user.cartItems.reduce(
+      (total, product) => total + product.quantity,
+      0
+    )
     res.status(200).json({
       accessToken,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email,
       wishListIems: user.wishListItems,
+      noItemsInCart,
     })
   } else {
     res.status(401)
