@@ -4,11 +4,16 @@ const connectDB = require('./config/db')
 const dotenv = require('dotenv').config()
 const cors = require('cors')
 const port = process.env.PORT || 5000
+const { swaggerUi, swaggerSpec } = require('./swagger')
 
 connectDB()
 const app = express()
 app.use(cors())
 app.use(express.json())
+
+// Use Swagger UI middleware
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+
 app.get('/node', (req, res) => {
   res.send('coverly backend')
 })

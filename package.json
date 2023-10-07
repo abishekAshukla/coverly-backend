@@ -19,7 +19,9 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.4.1",
-    "razorpay": "^2.9.2"
+    "razorpay": "^2.9.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
