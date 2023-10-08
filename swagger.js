@@ -29,6 +29,11 @@ const swaggerDefinition = {
       bearerAuth: [],
     },
   ],
+  servers: [
+    {
+      url: 'https://coverly-api.vercel.app',
+    },
+  ],
   basePath: '/api',
 }
 
