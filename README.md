@@ -30,11 +30,10 @@ The backend of Coverly is built using the following technologies:
 - Express.js: Web application framework for Node.js.
 - MongoDB: NoSQL database for data storage.
 - Mongoose: MongoDB object modeling for Node.js.
-- Other dependencies: [List any additional dependencies or libraries used in your project.]
 
 ## API Endpoints
 
-For detailed documentation of the API endpoints and how to use them, refer to the [API documentation](#link-to-api-documentation-if-available).
+For detailed documentation of the API endpoints and how to use them, refer to the [API documentation](https://coverly-api-docs.vercel.app/).
 
 ## Environment Variables
 
